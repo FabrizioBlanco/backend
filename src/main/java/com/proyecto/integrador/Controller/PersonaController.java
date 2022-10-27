@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("/personas")
+@RequestMapping("/personasmalas")
 //@CrossOrigin(origins = "http://localhost:4200")
 @CrossOrigin(origins = "https://porfoliofrontend.web.app")//sirve para que acepte las peticiones desde esa página
 public class PersonaController {
     @Autowired
     ImpPersonaService ipersonaService; 
     
-    @GetMapping("/lista")
+    @GetMapping("/listitas")
     public ResponseEntity<List<Persona>> list(){
         List<Persona> list= ipersonaService.list();
         return new ResponseEntity(list, HttpStatus.OK);
