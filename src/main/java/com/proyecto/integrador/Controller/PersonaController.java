@@ -27,7 +27,7 @@ public class PersonaController {
     @Autowired
     ImpPersonaService ipersonaService; 
     
-    @GetMapping("/listitas")
+    @GetMapping("/listita")
     public ResponseEntity<List<Persona>> list(){
         List<Persona> list= ipersonaService.list();
         return new ResponseEntity(list, HttpStatus.OK);
