@@ -36,8 +36,7 @@ public class Users {
     @NotBlank
     @Size(min = 6,max = 100)
     private String password;
-    @Lob
-    private String avatar;
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
@@ -45,13 +44,12 @@ public class Users {
     public Users() {
     }
 
-    public Users(Long id, String name, String username, String email, String password, String avatar, Set<Role> roles) {
+    public Users(Long id, String name, String username, String email, String password,Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.avatar = avatar;
         this.roles = roles;
     }
 
@@ -107,14 +105,6 @@ public class Users {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public Set<Role> getRoles() {

@@ -57,11 +57,7 @@ public class AuthController {
                 case "admin":
                     Role adminRole = roleService.findByName(RoleName.ADMIN).orElseThrow( ()-> new RuntimeException("Role not found"));
                     roles.add(adminRole);
-                    break;
-                case "pm":
-                    Role pmRole = roleService.findByName(RoleName.PM).orElseThrow( ()-> new RuntimeException("Role not found"));
-                    roles.add(pmRole);
-                    break;
+                    break;               
                 default:
                     Role userRole = roleService.findByName(RoleName.USER).orElseThrow( ()-> new RuntimeException("Role not found"));
                     roles.add(userRole);
