@@ -1,6 +1,5 @@
-package com.proyecto.integrador.Security;
+package com.proyecto.integrador.Security.config;
 
-//acá controlamos un poco todas las clases
 import com.proyecto.integrador.Security.security.jwt.JwtEntryPoint;
 import com.proyecto.integrador.Security.security.jwt.JwtTokenFilter;
 import com.proyecto.integrador.Security.security.userpincal.UserDetailService;
@@ -21,49 +20,36 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MainSecurity extends WebSecurityConfigurerAdapter{
-
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserDetailService  userDetailsService;
+    UserDetailService userDetailService;
     @Autowired
-    JwtEntryPoint jwtEntryPoint;
-
-    
+    private JwtEntryPoint jwtEntryPoint;
     @Bean
     public JwtTokenFilter jwtTokenFilter(){
         return new JwtTokenFilter();
     }
-    
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+    }
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
-                .antMatchers("**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
     @Bean
     @Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager(); //To change body of generated methods, choose Tools | Templates.
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
-
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().and().csrf().disable()
+                .authorizeRequests().antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and().exceptionHandling()
+                .authenticationEntryPoint(jwtEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
