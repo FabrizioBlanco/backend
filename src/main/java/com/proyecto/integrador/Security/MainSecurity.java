@@ -1,9 +1,9 @@
 package com.proyecto.integrador.Security;
 
 //acá controlamos un poco todas las clases
-import com.proyecto.integrador.Security.Jwt.JwtEntryPoint;
-import com.proyecto.integrador.Security.Jwt.JwtTokenFilter;
-import com.proyecto.integrador.Security.Service.UserDetailsServiceImpl;
+import com.proyecto.integrador.Security.security.jwt.JwtEntryPoint;
+import com.proyecto.integrador.Security.security.jwt.JwtTokenFilter;
+import com.proyecto.integrador.Security.security.userpincal.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class MainSecurity extends WebSecurityConfigurerAdapter{
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    UserDetailService  userDetailsService;
     @Autowired
     JwtEntryPoint jwtEntryPoint;
 
