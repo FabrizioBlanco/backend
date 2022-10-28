@@ -28,7 +28,7 @@ import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
-@RequestMapping("/permisos")
+@RequestMapping("permisos")
 @RestController
 public class AuthController {
 
